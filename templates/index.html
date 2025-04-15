@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bangalore House Price Predictor</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <h2>🏠 Bangalore House Price Prediction</h2>
+    <div class="register_page">
+        <div class="form">
+    <form action="/predict" method="post">
+        <label>Location:</label><br>
+        <input type="text" name="location" required><br><br>
+
+        <label>Total Square Feet:</label><br>
+        <input type="number" name="total_sqft" step="any" required><br><br>
+
+        <label>Number of Bathrooms:</label><br>
+        <input type="number" name="bath" required><br><br>
+
+        <label>BHK (Bedrooms):</label><br>
+        <input type="number" name="bhk" required><br><br>
+
+        <input class="sub" type="submit" value="Predict">
+    </form>
+
+    {% if prediction_text %}
+        <h3 class="res">{{ prediction_text }}</h3>
+    {% endif %}
+</div>
+
+</div>
+    </div>
+</body>
+</html>
