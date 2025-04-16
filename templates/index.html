@@ -1,35 +1,51 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Bangalore House Price Predictor</title>
     <link rel="stylesheet" href="static/style.css">
 </head>
+
 <body>
     <h2>🏠 Bangalore House Price Prediction</h2>
     <div class="register_page">
         <div class="form">
-    <form action="/predict" method="post">
-        <label>Location:</label><br>
-        <input type="text" name="location" required><br><br>
+            <form action="/predict" method="post">
+                <label>Location:</label><br>
+                <select name="location" required>
+                    {% for loc in locations %}
+                    <option value="{{ loc }}">{{ loc }}</option>
+                    {% endfor %}
+                </select><br><br>
 
-        <label>Total Square Feet:</label><br>
-        <input type="number" name="total_sqft" step="any" required><br><br>
+                <label>Total Square Feet:</label><br>
+                <input type="number" name="total_sqft" step="any" required><br><br>
 
-        <label>Number of Bathrooms:</label><br>
-        <input type="number" name="bath" required><br><br>
+                <label>Number of Bathrooms:</label><br>
+                <input type="number" name="bath" required><br><br>
 
-        <label>BHK (Bedrooms):</label><br>
-        <input type="number" name="bhk" required><br><br>
+                <label>BHK (Bedrooms):</label><br>
+                <input type="number" name="bhk" required><br><br>
 
-        <input class="sub" type="submit" value="Predict">
-    </form>
+                <input class="sub" type="submit" value="Predict">
+            </form>
 
-    {% if prediction_text %}
-        <h3 class="res">{{ prediction_text }}</h3>
-    {% endif %}
-</div>
+            {% if prediction_text %}
+            <h3 class="res">Estimated Price: ₹ {{ prediction_text }}</h3>
+            {% endif %}
 
-</div>
+            {% if error_message %}
+            <h3 class="res" style="color: red;">{{ error_message }}</h3>
+            {% endif %}
+
+
+            {% if image_file %}
+            <img src="{{ url_for('static', filename=image_file) }}" alt="Sample House"
+                style="width: 100%; max-width: 500px; margin-top: 20px; border-radius: 10px;">
+            {% endif %}
+
+        </div>
     </div>
 </body>
+
 </html>

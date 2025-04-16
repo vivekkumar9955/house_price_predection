@@ -13,8 +13,14 @@ df = pd.read_csv("Bengaluru_House_Data.csv")
 # Drop rows with null values in important columns
 df = df.dropna(subset=['location', 'size', 'total_sqft', 'bath'])
 
-#find total number of unique location
-unique_location=df['location'].nunique()
+# Strip spaces from location strings
+df['location'] = df['location'].str.strip()
+
+# Save sorted unique location list (for dropdown)
+location_list = sorted(df['location'].dropna().unique())
+with open('locations.pkl', 'wb') as f:
+    pickle.dump(location_list, f)
+
 # Extract number of bedrooms from 'size'
 df['bhk'] = df['size'].apply(lambda x: int(x.split(' ')[0]) if isinstance(x, str) and x.split(' ')[0].isdigit() else np.nan)
 df = df.dropna(subset=['bhk'])
@@ -55,8 +61,21 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 # Train the model
 model.fit(X_train, y_train)
 
-# Save the model
+# Save the trained model
 with open("bangalore_home_prices_model.pkl", "wb") as f:
     pickle.dump(model, f)
 
-print("✅ Model trained and saved successfully!")
+print("Model trained and saved successfully!")
+
+# Save all column names for future reference
+location_names = model.named_steps['preprocessor'].transformers_[0][1].get_feature_names_out(['location'])
+all_columns = list(location_names) + numeric_features
+
+columns_info = {
+    'data_columns': all_columns
+}
+
+with open("columns.pkl", "wb") as f:
+    pickle.dump(columns_info, f)
+
+print("Column info saved successfully!")

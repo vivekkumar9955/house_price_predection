@@ -31,3 +31,14 @@ body{
     font-weight: 600;
     color: cornflowerblue;
 }
+select{
+    width: 265px;
+    padding: 10px 10px;
+}
+.res {
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: green;
+    text-align: center;
+}
